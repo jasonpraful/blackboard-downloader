@@ -46,29 +46,27 @@ def handle_arguments(debug=False):
         except json.JSONDecodeError:
             print("Unable to Parse Configuration File: {}".format(args.config))
 
-    # Command Line Arg -> Config File -> Input
-
     if args.username is None:
         possible_username = config_content.get('username', '')
         if not args.ignore_input:
-            args.username = input("Enter Username [{}]: ".format(possible_username))
+            args.username = input("Please enter your Username [{}]: ".format(possible_username))
         if not args.username or not args.username.strip():
             if possible_username:
                 args.username = possible_username
             else:
-                print("No Username Supplied!")
+                print("No username entered.")
                 sys.exit(0)
 
     if args.password is None:
         possible_password = config_content.get('password', '')
         if not args.ignore_input:
-            args.password = getpass.getpass("Enter Password{}: "
+            args.password = getpass.getpass("Please enter your Password{}: "
                                             .format(" [Config Password]" if possible_password else ""))
         if not args.password or not args.password.strip():
             if possible_password:
                 args.password = possible_password
             else:
-                print("No Password Supplied!")
+                print("No Password entered")
                 sys.exit(0)
 
     if args.site is None:
@@ -78,7 +76,7 @@ def handle_arguments(debug=False):
 
         if ((not args.site or not args.site.strip()) and not possible_site and not args.ignore_input) or \
                 args.site == 'c':
-            args.site = navigation(options=BlackBoardInstitute.find(input("Institute Name: ")),
+            args.site = navigation(options=BlackBoardInstitute.find(input("University Name: ")),
                                    attribute='name', sort=True).display_lms_host
             if args.site is None:
                 print("No Site Supplied!")
@@ -91,10 +89,7 @@ def handle_arguments(debug=False):
     if args.record:
         pass
 
-    # if args.dump:
-    #    pass
-
-    # Run Actual Program
+    
     if args.gui:
         # Insert GUI Function Here
         print("No GUI Currently Implemented")
